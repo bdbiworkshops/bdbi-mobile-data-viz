@@ -79,7 +79,7 @@ const Index = () => {
                 <View style={styles.card}>
                     {isCounting && <View style={{ alignItems: 'center', marginBottom: 20 }}>
                         {/**
-                         * STEP #2: PIE (DONUT) CHART FOR STEP COUNTER
+                         * STEP #3: PIE (DONUT) CHART FOR STEP COUNTER
                          * Visualize progress made towards STEP_GOAL.
                         */}
                         <PieChart
@@ -119,6 +119,10 @@ const Index = () => {
                 <View style={[styles.card, styles.horizontalFlex]}>
                     {hikes.length > 0 ? (
                         <>
+                            {/**
+                            * STEP #2: TOTAL STEPS, TOTAL HIKES, & AVERAGE STEPS/HIKE
+                            * Calculate and display statistics from hike data.
+                            */}
                             <View style={{ alignItems: 'center' }}>
                                 <Text style={[styles.title, { fontSize: 30, marginBottom: 0 }]}>{lineData.reduce((acc, curr) => acc + curr.value, 0)}</Text>
                                 <Text style={styles.text}>Steps</Text>
@@ -140,7 +144,7 @@ const Index = () => {
                     {hikes.length > 0 ? (
                         <>
                             {/**
-                             * STEP #3: LINE CHART FOR STEP COUNT PROGRESSION
+                             * STEP #4: LINE CHART FOR STEP COUNT PROGRESSION
                              * Visualize how step count changes between hikes over time.
                             */}
                             <LineChart
@@ -167,7 +171,7 @@ const Index = () => {
                             />
 
                             {/**
-                            * STEP #4: RADAR CHART FOR STEP COUNT DISTRIBUTION
+                            * STEP #5: RADAR CHART FOR STEP COUNT DISTRIBUTION
                             * Display how hiking intensity varies across hikes, categorized by step count.
                             */}
                             {radarData.length > 0 && (
