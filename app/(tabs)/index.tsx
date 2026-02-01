@@ -6,15 +6,15 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensio
 import { LineChart, PieChart, RadarChart } from 'react-native-gifted-charts';
 import useStepHikes from '../hooks/useStepHikes';
 
-
 const Index = () => {
-    //#region (DON'T EDIT) INITIALIZATION <3
-    const STEP_GOAL = 100;
+    //#region (use for testing!) CONSTANTS
+    const STEP_GOAL = 10000;
     const HIKE_INTERVAL = 2500;
+    //#endregion
 
+    //#region (DON'T EDIT) INITIALIZATION
     const { width: screenWidth } = useWindowDimensions();
     const { steps, isCounting, startCounting, stopCounting, hikes, resetHikes, setHikes, saveHikes } = useStepHikes();
-
     const [fontsLoaded] = useFonts({
         'Host-Grotesk': require('../../assets/HostGrotesk_400Regular.ttf'),
         'Host-Grotesk-Bold': require('../../assets/HostGrotesk_700Bold.ttf'),
@@ -40,36 +40,16 @@ const Index = () => {
     };
     //#endregion
 
-    //#region DATA PREPARATION
-    const lineData = (hikes ?? []).map((h) => ({ value: h?.steps ?? 0, tooltipText: `${h.steps ?? 0} steps` }));
-    const radarData = [
-        {
-            label: `<${HIKE_INTERVAL}`,
-            value: hikes.filter(h => h.steps < HIKE_INTERVAL).length,
-            color: '#FF6384',
-        },
-        {
-            label: `${HIKE_INTERVAL}-${2 * HIKE_INTERVAL - 1}`,
-            value: hikes.filter(h => h.steps >= HIKE_INTERVAL && h.steps < 2 * HIKE_INTERVAL).length,
-            color: '#36A2EB',
-        },
-        {
-            label: `${2 * HIKE_INTERVAL}-${3 * HIKE_INTERVAL - 1}`,
-            value: hikes.filter(h => h.steps >= 2 * HIKE_INTERVAL && h.steps < 3 * HIKE_INTERVAL).length,
-            color: '#FFCE56',
-        },
-        {
-            label: `${3 * HIKE_INTERVAL}-${4 * HIKE_INTERVAL - 1}`,
-            value: hikes.filter(h => h.steps >= 3 * HIKE_INTERVAL && h.steps < 4 * HIKE_INTERVAL).length,
-            color: '#4BC0C0',
-        },
-        {
-            label: `>=${4 * HIKE_INTERVAL}`,
-            value: hikes.filter(h => h.steps >= 4 * HIKE_INTERVAL).length,
-            color: '#9966FF',
-        }
-    ];
-    //#endregion
+    /**
+     * STEP #1: DATA PREPARATION
+     * Populate lineData and radarData with hike metrics
+     * that fit the data format of gifted-charts.
+     * 
+     * 
+     * 
+    */
+    const lineData = [];
+    const radarData = [];
 
     return (
         <View style={{ flex: 1 }}>
@@ -78,33 +58,29 @@ const Index = () => {
                 <Text style={styles.heading}>Record A Hike</Text>
                 <View style={styles.card}>
                     {isCounting && <View style={{ alignItems: 'center', marginBottom: 20 }}>
-                        <PieChart
-                            data={[
-                                { value: steps, color: '#373D20' },
-                                { value: Math.max(0, STEP_GOAL - steps), color: '#E0E0E0' },
-                            ]}
-                            donut
-                            showGradient
-                            innerRadius={60}
-                            radius={100}
-                            centerLabelComponent={() => (
-                                <View style={{ alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 18, fontWeight: '600', color: '#373D20' }}>{steps} / {STEP_GOAL}</Text>
-                                    <Text style={{ fontSize: 14, color: '#4A4A4A' }}>Steps</Text>
-                                </View>
-                            )}
-                        />
+                        {/**
+                         * STEP #2: PIE (DONUT) CHART FOR STEP COUNTER
+                         * Visualize progress made towards STEP_GOAL.
+                         * 
+                         * 
+                         * 
+                        */}
                     </View>}
                     <View style={[styles.horizontalFlex]}>
                         {!isCounting && <TouchableOpacity onPress={resetHikes}>
-                            <Text style={styles.buttonReset}><FontAwesome name="refresh" size={24} color="white" /></Text>
+                            <Text style={styles.buttonReset}>
+                                <FontAwesome name="refresh" size={24} color="white" />
+                            </Text>
                         </TouchableOpacity>}
                         {!isCounting && <TouchableOpacity onPress={generateHundredRandomHikes}>
-                            <Text style={[styles.buttonReset, { paddingHorizontal: 15 }]}><FontAwesome5 name="dice" size={24} color="white" /></Text>
+                            <Text style={[styles.buttonReset, { paddingHorizontal: 15 }]}>
+                                <FontAwesome5 name="dice" size={24} color="white" />
+                            </Text>
                         </TouchableOpacity>}
                         <TouchableOpacity onPress={isCounting ? stopCounting : startCounting}>
                             <Text style={isCounting ? styles.buttonStop : styles.buttonStart}>
-                                {isCounting ? <FontAwesome name="stop" size={24} color="white" /> : <FontAwesome name="play" size={24} color="white" />}
+                                {isCounting ? <FontAwesome name="stop" size={24} color="white" />
+                                    : <FontAwesome name="play" size={24} color="white" />}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -126,58 +102,31 @@ const Index = () => {
                                 <Text style={[styles.title, { fontSize: 30, marginBottom: 0 }]}>{Math.round(lineData.reduce((acc, curr) => acc + curr.value, 0) / (hikes.length || 1))}</Text>
                                 <Text style={styles.text}>Steps/Hike</Text>
                             </View>
-                        </>)
-                        : <Text style={styles.text}>No hikes yet.</Text>}
+                        </>
+                    )
+                        : <Text style={styles.text}>No hikes yet.</Text>
+                    }
                 </View>
 
                 <Text style={styles.heading}>Hike History</Text>
                 <View style={styles.card}>
                     {hikes.length > 0 ? (
                         <>
-                            <LineChart
-                                data={lineData}
-                                width={screenWidth - 140}
-                                height={160}
-                                spacing={(screenWidth - 140) / (lineData.length)}
-                                areaChart
-                                startFillColor='#717744'
-                                curved
-                                referenceLine1Position={HIKE_INTERVAL}
-                                showReferenceLine1
-                                referenceLine2Position={2 * HIKE_INTERVAL}
-                                showReferenceLine2
-                                referenceLine3Position={3 * HIKE_INTERVAL}
-                                showReferenceLine3
-                                colors={[
-                                    {
-                                        from: 0,
-                                        to: 10000,
-                                        color: '#373D20',
-                                    }
-                                ]}
-                            />
+                            {/**
+                             * STEP #3: LINE CHART FOR STEP COUNT PROGRESSION
+                             * Visualize how step count changes between hikes over time.
+                             * 
+                             * 
+                             * 
+                            */}
                             {radarData.length > 0 && (
-                                <RadarChart
-                                    data={radarData.map(d => d.value)}
-                                    labels={radarData.map(d => d.label)}
-                                    labelConfig={{ stroke: '#717744', fontWeight: 'bold' }}
-                                    hideAsterLines={true}
-                                    dataLabels={radarData.map(d => `${d.value}`)}
-                                    dataLabelsConfig={{ stroke: '#373D20' }}
-                                    dataLabelsPositionOffset={HIKE_INTERVAL / 4}
-                                    maxValue={Math.max(...radarData.map(d => d.value)) * 1.4}
-                                    polygonConfig={
-                                        {
-                                            fill: '#717744',
-                                            stroke: '#000',
-                                            strokeWidth: 2,
-                                            opacity: 0.8,
-                                            gradientColor: '#373D20',
-                                            gradientOpacity: 0.7,
-                                            showGradient: true,
-                                        }
-                                    }
-                                />
+                                {/**
+                                * STEP #4: RADAR CHART FOR STEP COUNT DISTRIBUTION
+                                * Display how hiking intensity varies across hikes, categorized by step count.
+                                * 
+                                * 
+                                * 
+                                */}
                             )}
                         </>
                     ) : (
