@@ -78,6 +78,10 @@ const Index = () => {
                 <Text style={styles.heading}>Record A Hike</Text>
                 <View style={styles.card}>
                     {isCounting && <View style={{ alignItems: 'center', marginBottom: 20 }}>
+                        {/**
+                         * STEP #2: PIE (DONUT) CHART FOR STEP COUNTER
+                         * Visualize progress made towards STEP_GOAL.
+                        */}
                         <PieChart
                             data={[
                                 { value: steps, color: '#373D20' },
@@ -94,6 +98,7 @@ const Index = () => {
                                 </View>
                             )}
                         />
+
                     </View>}
                     <View style={[styles.horizontalFlex]}>
                         {!isCounting && <TouchableOpacity onPress={resetHikes}>
@@ -134,6 +139,10 @@ const Index = () => {
                 <View style={styles.card}>
                     {hikes.length > 0 ? (
                         <>
+                            {/**
+                             * STEP #3: LINE CHART FOR STEP COUNT PROGRESSION
+                             * Visualize how step count changes between hikes over time.
+                            */}
                             <LineChart
                                 data={lineData}
                                 width={screenWidth - 140}
@@ -156,6 +165,11 @@ const Index = () => {
                                     }
                                 ]}
                             />
+
+                            {/**
+                            * STEP #4: RADAR CHART FOR STEP COUNT DISTRIBUTION
+                            * Display how hiking intensity varies across hikes, categorized by step count.
+                            */}
                             {radarData.length > 0 && (
                                 <RadarChart
                                     data={radarData.map(d => d.value)}
