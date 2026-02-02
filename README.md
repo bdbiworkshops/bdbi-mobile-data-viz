@@ -15,8 +15,8 @@ Build Hikify, a statistical step tracker on your phone! We'll use React Native f
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com
-    cd your-project-name
+    git clone https://github.com/bdbiworkshops/bdbi-mobile-data-viz.git
+    cd bdbi-mobile-data-viz
     ```
 2.  **Install dependencies:**
     We recommend using `npx expo install` for third-party libraries within an Expo project, as it ensures compatible versions.
