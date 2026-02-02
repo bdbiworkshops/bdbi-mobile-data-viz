@@ -139,7 +139,7 @@ const Index = () => {
                             )}
                         </>
                     ) : (
-                        <Text style={styles.text}>No hikes recorded yet.</Text>
+                        <Text style={[styles.text, { textAlign: 'center' }]}>No hikes yet.</Text>
                     )}
                 </View>
             </ScrollView >
