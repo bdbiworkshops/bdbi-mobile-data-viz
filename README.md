@@ -5,7 +5,11 @@ Build Hikify, a statistical step tracker on your phone! We'll use React Native f
 
 ### Prerequisites
 
-Make sure you have Node.js and npm (or yarn/pnpm/bun) installed.
+- Laptop:
+    - Install Visual Studio Code (or your IDE of choice!)
+    - Install Node.js and npm.
+- Mobile Device:
+    - Install the Expo Go app (on App Store (iOS) or Google Play Store (Android))
 
 ### Installation
 
@@ -29,6 +33,6 @@ Start the development server:
 
 ```bash
 # Using npm
-npm start
+npx expo start
 # Or using yarn
-yarn start
+yarn expo start
