@@ -40,8 +40,10 @@ const Index = () => {
     };
     //#endregion
 
-    //#region DATA PREPARATION
-    const lineData = (hikes ?? []).map((h) => ({ value: h?.steps ?? 0, tooltipText: `${h.steps ?? 0} steps` }));
+    /**
+     * STEP 1: DATA PREPARATION
+     */
+    const lineData = (hikes ?? []).map((h) => ({ value: h?.steps ?? 0 }));
     const radarData = [
         {
             label: `<${HIKE_INTERVAL}`,
