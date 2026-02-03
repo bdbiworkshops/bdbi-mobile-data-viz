@@ -46,27 +46,22 @@ const Index = () => {
         {
             label: `<${HIKE_INTERVAL}`,
             value: hikes.filter(h => h.steps < HIKE_INTERVAL).length,
-            color: '#FF6384',
         },
         {
             label: `${HIKE_INTERVAL}-${2 * HIKE_INTERVAL - 1}`,
             value: hikes.filter(h => h.steps >= HIKE_INTERVAL && h.steps < 2 * HIKE_INTERVAL).length,
-            color: '#36A2EB',
         },
         {
             label: `${2 * HIKE_INTERVAL}-${3 * HIKE_INTERVAL - 1}`,
             value: hikes.filter(h => h.steps >= 2 * HIKE_INTERVAL && h.steps < 3 * HIKE_INTERVAL).length,
-            color: '#FFCE56',
         },
         {
             label: `${3 * HIKE_INTERVAL}-${4 * HIKE_INTERVAL - 1}`,
             value: hikes.filter(h => h.steps >= 3 * HIKE_INTERVAL && h.steps < 4 * HIKE_INTERVAL).length,
-            color: '#4BC0C0',
         },
         {
             label: `>=${4 * HIKE_INTERVAL}`,
             value: hikes.filter(h => h.steps >= 4 * HIKE_INTERVAL).length,
-            color: '#9966FF',
         }
     ];
     //#endregion
